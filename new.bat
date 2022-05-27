@@ -7,7 +7,7 @@
 @rem
 @rem            version = 3.0-alpha
 @rem
-@rem           author = coffeerequired
+@rem            author = coffeerequired
 @rem            # DONT USE IT - IN PROGRESS
 @rem
 @rem
@@ -46,16 +46,15 @@ set "flags_basic=java -Xms512M -Xmx1000M -jar server.jar nogui"
 set "flags_akair=java -Xms4G -Xmx4G %akair%-jar server.jar nogui"
 set "flags_akair_custom=java -Xms%7 -Xmx%9 %akair% -jar !arg_10:~2,25!.jar nogui"
 
+
+echo %server_type%
 goto :__main__
 
 @rem fun...
 
-
-
 :__main__
+endlocal
 @rem set the local variables..
-setlocal enableextensions
-setlocal enabledelayedexpansion
 
 echo.
 @rem display logo...
@@ -68,6 +67,8 @@ echo [30m"[37m | |  | || || | | ||  __/| (__ | |   | (_| || |  | |_  \__ \|  _
 echo [30m"[37m \_|  |_/|_||_| |_| \___| \___||_|    \__,_||_|   \__| |___/ \___||_|     \_/   \___||_|    |___/ \__| \__,_||_|    \__| \___||_|
 echo. 
 
+setlocal enabledelayedexpansion
+setlocal enableextensions
 echo [90m[[96m*[90m] [37m Setting [96menableextensions[37m
 echo [90m[[96m*[90m] [37m Setting [96menabledelayedexpansion[37m
 echo.
@@ -84,10 +85,11 @@ if "%output%"=="0x1" (
 )
 echo.
 
+
 if "%~1"=="--name" (
     if "%~2"=="" (
         echo [90m[[31m?[90m] [37mInserted empty string [91m"" [37m
-        echo.      
+        echo.    
     ) else (
         title Minecraft server [%~2]
         if "%~3"=="--flags" (
@@ -109,8 +111,11 @@ if "%~1"=="--name" (
                 echo.
                 set "server_type=improved"
                 goto __execute__
-            ) else if "%~4"=="advenced" (
+            ) else if "%~4"=="advanced" (
                 echo [90m[[96m*[90m] [37m Your server will spin up with [91mAdcenced flags... [37m 
+                set "server_type=Advanced"
+                echo.
+                goto __flags+__                
             ) else if "%~4"=="custom" (
                 echo [90m[[96m*[90m] [37m Your server will spin up with [91mCustom flags... [37m 
             ) else (
@@ -119,8 +124,13 @@ if "%~1"=="--name" (
                 echo [90m[[96m*[90m] [37m Executing...
                 echo.
                 set "server_type=basics"
-                goto __execute__
+                @rem goto __execute__
             )
         )
     )
 )
+echo !server_type!
+goto :eof
+
+:__flags+__
+echo !server_type!
