@@ -35,8 +35,8 @@ set properties=server.properties
 set tmp_ip=%temp%\Uu2zy_result.tmp
 set tmp_port=%temp%\Uu2zy_result2.tmp
 
-findstr /I "server-ip=" %properties% > %tmp_ip%
-findstr /I "server-port=" %properties% > %tmp_port%
+findstr /I "server-ip=" %properties% > %tmp_ip% >nul 2>&1
+findstr /I "server-port=" %properties% > %tmp_port% >nul 2>&1
 
 set /p "ip_unformatted=" < %tmp_ip% 
 set /p "port_unformatted= "< %tmp_port%
@@ -344,9 +344,7 @@ if "%server_type%"=="basics" (
     %flags_akair_2%
     call :__after__
 ) else if "%server_type%"=="Custom" (
-    echo %nI% Type %nBlueL%%type% %nReset%Version %nYellow%%version%%nReset% Build %nGreenD%%build_string% %nReset%
-    echo.
-    if "!6"=="" (
+    if "%6"=="" (
         echo %nW% You need to specify version %nBlueL%latest%nReset% ^| %nGreenD%Version %nReset%
         echo.
         exit /b 1
@@ -360,7 +358,7 @@ if "%server_type%"=="basics" (
     set "arg_!Counter!=%%f"
     set /A Counter+=1
     )
-    if "%~8"=="" (
+    if "%8"=="" (
         echo %nW% You need to specify %nYellow%value of Minimum %nReset%Ram via %nBlueL%e.g. --min 1G %nReset%
         exit /b 1
     )
@@ -383,6 +381,3 @@ if "%server_type%"=="basics" (
 ) else (
     exit /b 1
 )
-
-
-./new --name "Test" --flags custom --purpur latest | ver | --min 1000M --max 1000 --winc
